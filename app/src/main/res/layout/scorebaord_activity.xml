@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.Scoreboard_Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/scoreboard_LBL_sb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="0.25"
+            android:padding="3dp"
+            android:text="@string/sb_title"
+            android:textColor="@color/menuTitle"
+            android:textSize="60sp"/>
+
+        <RelativeLayout
+            android:id="@+id/sb_LAY_sb_list"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true" >
+
+            <ListView
+                android:id="@+id/winner_ListView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/sb_LAY_location"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:layout_margin="10dp"
+            android:background="#454545"
+            >
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/google_MAP_small"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".fragments.Fragment_Map" />
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/sb_BTN_goToMenu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:layout_margin="10dp"
+            android:text="@string/sb_main_menu"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

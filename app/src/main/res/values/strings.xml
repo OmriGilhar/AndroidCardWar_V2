@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">MsOgCardWar</string>
+
+    <string name="menu_title">Card War!</string>
+    <string name="menu_start">Start Game</string>
+    <string name="scoreboard_start">Scoreboard</string>
+    <string name="menu_about">About</string>
+    <string name="menu_card_image">Card Image</string>
+
+    <string name="sb_title">Scoreboard</string>
+    <string name="sb_main_menu">Main Menu</string>
+
+
+    <string name="game_btn_play">Play!</string>
+    <string name="p1_card_description">Player One Card Image</string>
+    <string name="p2_card_description">Player Two Card Image</string>
+
+    <string name="winner_title">!! WINNER !!</string>
+    <string name="winner_score_title">Your Score </string>
+    <string name="winner_image_description">Winner Card Image</string>
+    <string name="winner_start_new_game">Start a New Game </string>
+
+    <string name="path_to_default_card">card_back</string>
+    <string name="title_activity_scoreboard">ScoreboardActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+
+</resources>

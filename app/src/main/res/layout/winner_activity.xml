@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.Winner_Activity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/winner_spooky"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/winner_LBL_winner_title"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="50sp"/>
+
+        <ImageView
+            android:id="@+id/winner_IMG_winner"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:src="@drawable/monster"
+            android:contentDescription="@string/winner_image_description" />
+
+        <TextView
+            android:id="@+id/winner_LBL_description"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:textSize="30sp"/>
+
+        <Button
+            android:id="@+id/winner_BTN_score_board"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/scoreboard_start"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/menuButtons"
+            android:textColor="@color/black"/>
+
+        <Button
+            android:id="@+id/winner_BTN_startNewGame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/winner_start_new_game"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/menuButtons"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
