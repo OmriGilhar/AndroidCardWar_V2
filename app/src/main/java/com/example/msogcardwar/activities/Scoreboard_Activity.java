@@ -25,7 +25,7 @@ public class Scoreboard_Activity extends AppCompatActivity {
     private ListView sb_LAY_sb_listw;
     private View google_MAP_small;
     private Button start_game_btn;
-    private WinnersData winnersData = new WinnersData();
+    private final WinnersData winnersData = new WinnersData();
     private ListView simpleList;
     private CustomAdapter customAdapter;
 
@@ -33,8 +33,8 @@ public class Scoreboard_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scorebaord_activity);
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-        simpleList = (ListView)findViewById(R.id.winner_ListView);
+        SharedPreferences mPrefs = this.getSharedPreferences("myPrefs", MODE_PRIVATE);
+        simpleList = findViewById(R.id.winner_ListView);
         customAdapter = winnersData.generateWinners(mPrefs, getApplicationContext());
         find_views();
         initViews();

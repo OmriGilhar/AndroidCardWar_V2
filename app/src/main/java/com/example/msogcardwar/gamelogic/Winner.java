@@ -1,14 +1,19 @@
 package com.example.msogcardwar.gamelogic;
 
+
+import android.location.Location;
+
 public class Winner {
     private int score;
-    private int winner_img_id;
-    private int location;
+    private int icon;
+    private Location location;
 
-    public Winner(int score, int winner_img_id, int location) {
-        this.score = score;
-        this.winner_img_id = winner_img_id;
-        this.location = location;
+    public Winner(){}
+
+    public Winner(int score, int icon, Location location) {
+        this.setScore(score);
+        this.setIcon(icon);
+        this.setLocation(location);
     }
 
 
@@ -21,19 +26,28 @@ public class Winner {
     }
 
     public int getIcon() {
-        return winner_img_id;
+        return icon;
     }
 
     public void setIcon(int icon) {
-        this.winner_img_id = icon;
+        this.icon = icon;
     }
 
-    public int  getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(int  location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
+    public int compareTo(Winner winner2) {
+        if(this.getScore() < winner2.getScore()){
+            return 1;
+        }
+        else if(this.getScore() > winner2.getScore()){
+            return -1;
+        }
+        return 0;
+    }
 }

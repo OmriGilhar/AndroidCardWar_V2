@@ -2,8 +2,14 @@ package com.example.msogcardwar.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.CountDownTimer;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -32,6 +38,16 @@ public class Game_Activity extends AppCompatActivity {
     private ProgressBar game_PB_Timer;
     private MyCountDownTimer myCountDownTimer;
     private Boolean isGameActive = true;
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            Log.println(Log.DEBUG, "location", location.toString());
+            setLocation(location);
+        }
+    };
+    private Location location;
+    private static final long LOCATION_REFRESH_TIME = 10000;
+    private static final float LOCATION_REFRESH_DISTANCE = 5;
 
 
     @Override
@@ -42,7 +58,7 @@ public class Game_Activity extends AppCompatActivity {
         findViews();
         initViews();
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             getScoresFromInstance(savedInstanceState);
             getStacksFromInstance(savedInstanceState);
             getPlayersCardFromInstance(savedInstanceState);
@@ -56,7 +72,7 @@ public class Game_Activity extends AppCompatActivity {
         outState.putSerializable(Constants.PLAYER_TWO_STACK, game_manager.getPlayerTwo().getPlayerStack());
 
         // If someone spin the phone when no card as been played yet
-        if(game_manager.getPlayerOne().getPlayerCard() != null){
+        if (game_manager.getPlayerOne().getPlayerCard() != null) {
             outState.putString(Constants.PLAYER_ONE_CURRENT_CARD_IMG, game_manager.getPlayerOne().getPlayerCard().getKey());
             outState.putInt(Constants.PLAYER_ONE_CURRENT_CARD_VALUE, game_manager.getPlayerOne().getPlayerCard().getValue());
             outState.putString(Constants.PLAYER_TWO_CURRENT_CARD_IMG, game_manager.getPlayerTwo().getPlayerCard().getKey());
@@ -93,6 +109,19 @@ public class Game_Activity extends AppCompatActivity {
         game_manager = new GameManager();
         refreshScoreView();
         game_manager.createGameStacks(false);
+
+        //Location manager
+        LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ContextCompat.checkSelfPermission( this,android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
+        {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String [] { android.Manifest.permission.ACCESS_COARSE_LOCATION },
+                    10
+            );
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+                LOCATION_REFRESH_DISTANCE, mLocationListener);
 
         backgroundMusic = MediaPlayer.create(this,
                 R.raw.loyalty_freak_music10the_witch_are_going_magical);
@@ -185,6 +214,7 @@ public class Game_Activity extends AppCompatActivity {
         Intent winnerView = new Intent(Game_Activity.this, Winner_Activity.class);
         winnerView.putExtra("winner_score", winner_score);
         winnerView.putExtra("winner_image_id", drawable_id);
+        winnerView.putExtra("winner_location", this.getLocation());
         Game_Activity.this.startActivity(winnerView);
         backgroundMusic.release();
     }
@@ -198,10 +228,17 @@ public class Game_Activity extends AppCompatActivity {
 
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Location getLocation(){
+        return this.location;
+    }
+
     private void refreshScoreView() {
         game_lbl_scorePlayer1.setText(String.valueOf(game_manager.getPlayerOne().getPlayerScore()));
         game_lbl_scorePlayer2.setText(String.valueOf(game_manager.getPlayerTwo().getPlayerScore()));
     }
-
 
 }

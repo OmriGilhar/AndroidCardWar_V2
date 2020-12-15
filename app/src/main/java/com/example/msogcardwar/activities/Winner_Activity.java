@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.Button;
@@ -25,15 +26,17 @@ public class Winner_Activity extends AppCompatActivity {
     private Button score_board_btn;
     private final WinnersData winnersData = new WinnersData();
     private MediaPlayer backgroundMusic;
+    private Location location;
     private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.winner_activity);
-        mPrefs = getPreferences(MODE_PRIVATE);
+        mPrefs = getSharedPreferences("myPrefs",MODE_PRIVATE);
         this.winner_score = getIntent().getIntExtra("winner_score", -1);
         this.winner_img_id = getIntent().getIntExtra("winner_image_id", -1);
+        this.location = (Location) getIntent().getSerializableExtra("winner_location");
 
         findViews();
         initViews();
@@ -56,7 +59,7 @@ public class Winner_Activity extends AppCompatActivity {
         score_board_btn.setOnClickListener(v -> openScoreboardView());
         backgroundMusic = MediaPlayer.create(this, R.raw.loyalty_freak_music04hello_regan);
         backgroundMusic.start();
-        winnersData.saveWinner(mPrefs, this.winner_score, winner_img_id, 10);
+        winnersData.saveWinner(mPrefs, this.winner_score, winner_img_id, location);
     }
 
     private void openGameView() {
