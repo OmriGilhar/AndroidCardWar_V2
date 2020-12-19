@@ -3,7 +3,6 @@ package com.example.msogcardwar.gamelogic;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,11 +23,10 @@ public class WinnersData {
     public void saveWinner(SharedPreferences mPrefs, int winner_score, int winner_img_id, Location location)  {
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         boolean is_save = false;
-        Winner myWinner = new Winner(winner_score, winner_img_id, location);
+        Winner myWinner = new Winner(winner_score, winner_img_id, location.getLatitude(), location.getLongitude());
         gson = new Gson();
         json = mPrefs.getString("Winners", "");
         winners = gson.fromJson(json, winner_type);
-
 
 
         if(winners == null){
@@ -66,12 +64,10 @@ public class WinnersData {
         return -1;
     }
 
-
     public CustomAdapter generateWinners(SharedPreferences mPrefs, Context applicationContext){
         gson = new Gson();
         json = mPrefs.getString("Winners", "");
         winners = gson.fromJson(json, winner_type);
-
         if (winners != null) {
             for (int i = 0; i < winners.size(); i++) {
                 scoreArr[i] = "score: " + winners.get(i).getScore();
@@ -79,5 +75,12 @@ public class WinnersData {
             }
         }
         return new CustomAdapter(applicationContext, scoreArr, iconsArr);
+    }
+
+    public Winner getWinner(int i){
+        if(winners.size() >= i){
+            return winners.get(i);
+        }
+        return null;
     }
 }

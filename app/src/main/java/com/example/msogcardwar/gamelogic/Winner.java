@@ -1,19 +1,17 @@
 package com.example.msogcardwar.gamelogic;
 
-
-import android.location.Location;
-
 public class Winner {
     private int score;
     private int icon;
-    private Location location;
 
-    public Winner(){}
+    private double lat;
+    private double lng;
 
-    public Winner(int score, int icon, Location location) {
+    public Winner(int score, int icon, double lat, double lng) {
         this.setScore(score);
         this.setIcon(icon);
-        this.setLocation(location);
+        this.setLat(lat);
+        this.setLng(lng);
     }
 
 
@@ -33,12 +31,20 @@ public class Winner {
         this.icon = icon;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLat() {
+        return lat;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public int compareTo(Winner winner2) {

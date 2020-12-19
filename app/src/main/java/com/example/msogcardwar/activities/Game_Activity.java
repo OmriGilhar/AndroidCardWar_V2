@@ -2,18 +2,11 @@ package com.example.msogcardwar.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.CountDownTimer;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -27,7 +20,7 @@ import com.example.msogcardwar.R;
 import java.util.Stack;
 
 
-public class Game_Activity extends AppCompatActivity {
+public class Game_Activity extends AppCompatActivity{
     private TextView game_lbl_scorePlayer1;
     private ImageView game_img_card_player1;
     private TextView game_lbl_scorePlayer2;
@@ -38,23 +31,11 @@ public class Game_Activity extends AppCompatActivity {
     private ProgressBar game_PB_Timer;
     private MyCountDownTimer myCountDownTimer;
     private Boolean isGameActive = true;
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            Log.println(Log.DEBUG, "location", location.toString());
-            setLocation(location);
-        }
-    };
-    private Location location;
-    private static final long LOCATION_REFRESH_TIME = 10000;
-    private static final float LOCATION_REFRESH_DISTANCE = 5;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_activity);
-
         findViews();
         initViews();
 
@@ -110,18 +91,6 @@ public class Game_Activity extends AppCompatActivity {
         refreshScoreView();
         game_manager.createGameStacks(false);
 
-        //Location manager
-        LocationManager mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ContextCompat.checkSelfPermission( this,android.Manifest.permission.ACCESS_COARSE_LOCATION ) != PackageManager.PERMISSION_GRANTED )
-        {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String [] { android.Manifest.permission.ACCESS_COARSE_LOCATION },
-                    10
-            );
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
-                LOCATION_REFRESH_DISTANCE, mLocationListener);
 
         backgroundMusic = MediaPlayer.create(this,
                 R.raw.loyalty_freak_music10the_witch_are_going_magical);
@@ -130,7 +99,6 @@ public class Game_Activity extends AppCompatActivity {
 
         game_btn_play.setOnClickListener(v -> nextRound());
     }
-
 
     private void startGameTimer(){
         myCountDownTimer = new MyCountDownTimer(5000, 1000);
@@ -144,16 +112,14 @@ public class Game_Activity extends AppCompatActivity {
 
         @Override
         public void onTick(long millisUntilFinished) {
-            int progress = (int) (millisUntilFinished/50);
-            Log.println(Log.DEBUG, "kaka", "----------");
-            game_PB_Timer.setProgress(game_PB_Timer.getMax()-progress);
+            int progress = (int) (millisUntilFinished / 50);
+            game_PB_Timer.setProgress(game_PB_Timer.getMax() - progress);
         }
         @Override
         public void onFinish() {
             if (isGameActive) nextRound();
         }
     }
-
 
     private void getPlayersCardFromInstance(Bundle savedInstanceState) {
         game_manager.getPlayerOne().setPlayerCard(new CardEntry<>(
@@ -178,13 +144,8 @@ public class Game_Activity extends AppCompatActivity {
 
     @SuppressWarnings("unchecked")
     private void getStacksFromInstance(Bundle savedInstanceState) {
-        try{
-            game_manager.getPlayerOne().setPlayerStack((Stack<CardEntry<String,Integer>>)savedInstanceState.getSerializable(Constants.PLAYER_ONE_STACK));
-            game_manager.getPlayerTwo().setPlayerStack((Stack<CardEntry<String,Integer>>)savedInstanceState.getSerializable(Constants.PLAYER_TWO_STACK));
-        } catch (ClassCastException e){
-            Log.println(Log.ERROR, "Casting", e.toString());
-        }
-
+        game_manager.getPlayerOne().setPlayerStack((Stack<CardEntry<String, Integer>>) savedInstanceState.getSerializable(Constants.PLAYER_ONE_STACK));
+        game_manager.getPlayerTwo().setPlayerStack((Stack<CardEntry<String, Integer>>) savedInstanceState.getSerializable(Constants.PLAYER_TWO_STACK));
     }
 
     private void nextRound() {
@@ -195,7 +156,7 @@ public class Game_Activity extends AppCompatActivity {
         refreshCardView(game_manager.getPlayerOne().getPlayerCard().getKey(), game_manager.getPlayerTwo().getPlayerCard().getKey());
         refreshScoreView();
 
-        switch(game_manager.getGameState()){
+        switch (game_manager.getGameState()) {
             case 1:
                 drawable_id = this.getResources().getIdentifier("black_cat", "drawable", this.getPackageName());
                 openWinnerView(game_manager.getPlayerOne().getPlayerScore(), drawable_id);
@@ -214,7 +175,6 @@ public class Game_Activity extends AppCompatActivity {
         Intent winnerView = new Intent(Game_Activity.this, Winner_Activity.class);
         winnerView.putExtra("winner_score", winner_score);
         winnerView.putExtra("winner_image_id", drawable_id);
-        winnerView.putExtra("winner_location", this.getLocation());
         Game_Activity.this.startActivity(winnerView);
         backgroundMusic.release();
     }
@@ -226,14 +186,6 @@ public class Game_Activity extends AppCompatActivity {
         game_img_card_player1.setImageResource(player_one_drawable);
         game_img_card_player2.setImageResource(player_two_drawable);
 
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public Location getLocation(){
-        return this.location;
     }
 
     private void refreshScoreView() {
