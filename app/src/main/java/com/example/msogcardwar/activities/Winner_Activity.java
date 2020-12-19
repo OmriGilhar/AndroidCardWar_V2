@@ -7,13 +7,18 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.msogcardwar.R;
 import com.example.msogcardwar.gamelogic.WinnersData;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -28,6 +33,7 @@ public class Winner_Activity extends AppCompatActivity {
     private int winner_score;
     private int winner_img_id;
     private Button start_game_btn;
+    private View winner_img_background;
     private Button score_board_btn;
     private MediaPlayer backgroundMusic;
     private SharedPreferences mPrefs;
@@ -53,11 +59,18 @@ public class Winner_Activity extends AppCompatActivity {
         winner_lbl_winner_name = findViewById(R.id.winner_LBL_winner_title);
         winner_img_winner_logo = findViewById(R.id.winner_IMG_winner);
         winner_lbl_winner_score = findViewById(R.id.winner_LBL_description);
+        winner_img_background = findViewById(R.id.winner_IMG_background);
         start_game_btn = findViewById(R.id.winner_BTN_startNewGame);
         score_board_btn = findViewById(R.id.winner_BTN_score_board);
     }
 
     private void initViews() {
+        Glide.with(this).load("https://static.vecteezy.com/system/resources/previews/000/209/930/non_2x/spooky-halloween-background-vector.jpg").into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                winner_img_background.setBackground(resource);
+            }
+        });
         String winner_score_title = "Your Score is :" + this.winner_score;
         winner_lbl_winner_name.setText(R.string.winner_title);
         winner_lbl_winner_score.setText(winner_score_title);

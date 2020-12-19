@@ -4,14 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.widget.ImageButton;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.msogcardwar.gamelogic.CardEntry;
 import com.example.msogcardwar.gamelogic.Constants;
 import com.example.msogcardwar.gamelogic.GameManager;
@@ -25,7 +29,7 @@ public class Game_Activity extends AppCompatActivity{
     private ImageView game_img_card_player1;
     private TextView game_lbl_scorePlayer2;
     private ImageView game_img_card_player2;
-    private ImageButton game_btn_play;
+    private View game_img_background;
     private GameManager game_manager;
     private MediaPlayer backgroundMusic;
     private ProgressBar game_PB_Timer;
@@ -80,11 +84,17 @@ public class Game_Activity extends AppCompatActivity{
         game_img_card_player1 = findViewById(R.id.game_IMG_card_player1);
         game_lbl_scorePlayer2 = findViewById(R.id.game_LBL_scorePlayer2);
         game_img_card_player2 = findViewById(R.id.game_IMG_card_player2);
-        game_btn_play = findViewById(R.id.game_BTN_play);
+        game_img_background = findViewById(R.id.game_IMG_background);
         game_PB_Timer = findViewById(R.id.game_PB_Timer);
     }
 
     private void initViews() {
+        Glide.with(this).load("https://i.pinimg.com/originals/a8/42/2d/a8422dca6b018d7bd160e7d74e875813.jpg").into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                game_img_background.setBackground(resource);
+            }
+        });
         game_img_card_player1.setImageResource(R.drawable.card_back);
         game_img_card_player2.setImageResource(R.drawable.card_back);
         game_manager = new GameManager();
@@ -96,12 +106,10 @@ public class Game_Activity extends AppCompatActivity{
                 R.raw.loyalty_freak_music10the_witch_are_going_magical);
         backgroundMusic.start();
         startGameTimer();
-
-        game_btn_play.setOnClickListener(v -> nextRound());
     }
 
     private void startGameTimer(){
-        myCountDownTimer = new MyCountDownTimer(5000, 1000);
+        myCountDownTimer = new MyCountDownTimer(3000, 1000);
         myCountDownTimer.start();
     }
 
@@ -112,7 +120,7 @@ public class Game_Activity extends AppCompatActivity{
 
         @Override
         public void onTick(long millisUntilFinished) {
-            int progress = (int) (millisUntilFinished / 50);
+            int progress = (int) (millisUntilFinished / 30);
             game_PB_Timer.setProgress(game_PB_Timer.getMax() - progress);
         }
         @Override

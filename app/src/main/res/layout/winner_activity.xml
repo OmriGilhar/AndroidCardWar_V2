@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".activities.Winner_Activity">
     <LinearLayout
+        android:id="@+id/winner_IMG_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/winner_spooky"
         android:orientation="vertical"
         android:gravity="center">
         <TextView
