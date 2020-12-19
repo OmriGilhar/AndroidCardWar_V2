@@ -20,10 +20,10 @@ public class WinnersData {
     private final Type winner_type = new TypeToken<List<Winner>>(){}.getType();
 
     //TODO:switch location to map location
-    public void saveWinner(SharedPreferences mPrefs, int winner_score, int winner_img_id, Location location)  {
+    public void saveWinner(SharedPreferences mPrefs, String name, int winner_score, int winner_img_id, Location location)  {
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         boolean is_save = false;
-        Winner myWinner = new Winner(winner_score, winner_img_id, location.getLatitude(), location.getLongitude());
+        Winner myWinner = new Winner(name, winner_score, winner_img_id, location.getLatitude(), location.getLongitude());
         gson = new Gson();
         json = mPrefs.getString("Winners", "");
         winners = gson.fromJson(json, winner_type);
@@ -70,7 +70,7 @@ public class WinnersData {
         winners = gson.fromJson(json, winner_type);
         if (winners != null) {
             for (int i = 0; i < winners.size(); i++) {
-                scoreArr[i] = "score: " + winners.get(i).getScore();
+                scoreArr[i] ="Name: " + winners.get(i).getName() + " Score: " + winners.get(i).getScore();
                 iconsArr[i] = winners.get(i).getIcon();
             }
         }

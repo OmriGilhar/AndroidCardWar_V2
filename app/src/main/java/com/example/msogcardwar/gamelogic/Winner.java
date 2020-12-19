@@ -3,17 +3,25 @@ package com.example.msogcardwar.gamelogic;
 public class Winner {
     private int score;
     private int icon;
-
+    private String name;
     private double lat;
     private double lng;
 
-    public Winner(int score, int icon, double lat, double lng) {
+    public Winner(String name, int score, int icon, double lat, double lng) {
         this.setScore(score);
         this.setIcon(icon);
         this.setLat(lat);
         this.setLng(lng);
+        this.setName(name);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getScore() {
         return score;

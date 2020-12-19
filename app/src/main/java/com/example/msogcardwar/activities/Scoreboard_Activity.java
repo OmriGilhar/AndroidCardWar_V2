@@ -56,7 +56,7 @@ public class Scoreboard_Activity extends AppCompatActivity implements OnMapReady
             Winner winner = winnersData.getWinner(position);
             LatLng winner_location = new LatLng(winner.getLat(), winner.getLng());
             google_map.animateCamera(CameraUpdateFactory.newLatLngZoom(winner_location, 15));
-            google_map.addMarker(new MarkerOptions().position(winner_location).title("Your Score: "+winner.getScore()));
+            google_map.addMarker(new MarkerOptions().position(winner_location).title("Name: " + winner.getName() + " Score: "+winner.getScore()));
         });
     }
 

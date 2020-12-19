@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,10 @@ public class Winner_Activity extends AppCompatActivity {
     private TextView winner_lbl_winner_score;
     private int winner_score;
     private int winner_img_id;
+    private String winner_name;
     private Button start_game_btn;
+    private Button winner_btn_save;
+    private EditText winner_edt_name;
     private View winner_img_background;
     private Button score_board_btn;
     private MediaPlayer backgroundMusic;
@@ -62,6 +66,8 @@ public class Winner_Activity extends AppCompatActivity {
         winner_img_background = findViewById(R.id.winner_IMG_background);
         start_game_btn = findViewById(R.id.winner_BTN_startNewGame);
         score_board_btn = findViewById(R.id.winner_BTN_score_board);
+        winner_btn_save = findViewById(R.id.winner_BTN_save);
+        winner_edt_name = findViewById(R.id.winner_EDT_name);
     }
 
     private void initViews() {
@@ -77,8 +83,14 @@ public class Winner_Activity extends AppCompatActivity {
         winner_img_winner_logo.setImageResource(winner_img_id);
         start_game_btn.setOnClickListener(v -> openGameView());
         score_board_btn.setOnClickListener(v -> openScoreboardView());
+        winner_btn_save.setOnClickListener(v -> saveName());
+
         backgroundMusic = MediaPlayer.create(this, R.raw.loyalty_freak_music04hello_regan);
         backgroundMusic.start();
+    }
+
+    private void saveName(){
+        this.winner_name = winner_edt_name.getText().toString();
         getUserLastLocation();
     }
 
@@ -106,7 +118,7 @@ public class Winner_Activity extends AppCompatActivity {
                 .addOnSuccessListener(this, location -> {
                     // Got last known location. In some rare situations this can be null.
                     if (location != null) {
-                        winnersData.saveWinner(mPrefs, winner_score, winner_img_id, location);
+                        winnersData.saveWinner(mPrefs, this.winner_name, winner_score, winner_img_id, location);
                     }
                 });
     }
